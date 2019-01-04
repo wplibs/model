@@ -445,7 +445,7 @@ abstract class Model implements Arrayable, Jsonable, \ArrayAccess, \JsonSerializ
 	/**
 	 * Begin querying the model.
 	 *
-	 * @param array $query The query.
+	 * @param array $query The query vars.
 	 * @return \WPLibs\Model\Query\Builder
 	 */
 	public static function query( $query = [] ) {
@@ -455,19 +455,21 @@ abstract class Model implements Arrayable, Jsonable, \ArrayAccess, \JsonSerializ
 	/**
 	 * Get a new query builder for the model's.
 	 *
-	 * @param array $query_vars The query.
+	 * @param array $query_vars The query vars.
 	 * @return \WPLibs\Model\Query\Builder
 	 */
 	public function new_query_builder( $query_vars = [] ) {
-		return ( new Query\Builder( $this->new_query() ) )->set_model( $this );
+		return ( new Query\Builder( $this->new_query( $query_vars ) ) )
+			->set_model( $this );
 	}
 
 	/**
 	 * Get a new query instance.
 	 *
+	 * @param array $query_vars
 	 * @return \WPLibs\Model\Query\Query
 	 */
-	public function new_query() {
+	public function new_query( $query_vars = [] ) {
 		return new Query\DB_Query( $this->new_db_query() );
 	}
 
