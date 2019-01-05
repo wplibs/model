@@ -11,10 +11,11 @@ use Illuminate\Contracts\Support\Arrayable;
 /**
  * Abstract model class.
  *
- * @method static self find( $id )
- * @method int         doing_insert( $attributes )
- * @method bool        doing_update( $id, $dirty )
- * @method bool        doing_delete( $id, $force = false )
+ * @method static static raw( $id )
+ * @method static static find( $id )
+ * @method int           doing_insert( $attributes )
+ * @method bool          doing_update( $id, $dirty )
+ * @method bool          doing_delete( $id, $force = false )
  *
  * @package WPLibs\Model
  */
@@ -22,13 +23,6 @@ abstract class Model implements Arrayable, Jsonable, \ArrayAccess, \JsonSerializ
 	use Concerns\Has_Attributes,
 		Concerns\Has_Events,
 		Serialization;
-
-	/**
-	 * Name of object type.
-	 *
-	 * @var string
-	 */
-	protected $object_type;
 
 	/**
 	 * The table associated with the model.
@@ -561,15 +555,6 @@ abstract class Model implements Arrayable, Jsonable, \ArrayAccess, \JsonSerializ
 	 */
 	public function get_key_name() {
 		return $this->primary_key;
-	}
-
-	/**
-	 * Return the object type name.
-	 *
-	 * @return string
-	 */
-	public function get_object_type() {
-		return $this->object_type;
 	}
 
 	/**
