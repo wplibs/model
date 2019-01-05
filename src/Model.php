@@ -72,14 +72,15 @@ abstract class Model implements Arrayable, Jsonable, \ArrayAccess, \JsonSerializ
 	 * @param array|mixed $attributes The model attributes.
 	 */
 	public function __construct( $attributes = [] ) {
-		$this->maybe_boot();
+		$this->boot_if_not_booted();
+
+		$this->initialize_traits();
 
 		// Forward initialize to the sub-class.
 		if ( method_exists( $this, 'initialize' ) ) {
-			$this->initialize( $attributes );
+			$this->initialize( ...func_get_args() );
 		}
 
-		$this->initialize_traits();
 		$this->sync_original();
 
 		if ( is_array( $attributes ) ) {
@@ -92,7 +93,7 @@ abstract class Model implements Arrayable, Jsonable, \ArrayAccess, \JsonSerializ
 	 *
 	 * @return void
 	 */
-	protected function maybe_boot() {
+	protected function boot_if_not_booted() {
 		if ( ! isset( static::$booted[ static::class ] ) ) {
 			static::$booted[ static::class ] = true;
 
